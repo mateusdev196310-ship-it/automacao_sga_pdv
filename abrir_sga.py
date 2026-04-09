@@ -71,6 +71,4 @@ class GerenciadorSGA:
 
     
 #Retornar no fluxo de inserção dos caminhos, criar arquivo config.py  
-teste= GerenciadorSGA('C:\\Users\\mateussouza\\Desktop\\QA\\SGA\\sac4win\\SGA.exe',
-                      'C:\\Users\\mateussouza\\Desktop\\QA\\SGA\\sac4win\\dados\\SAC4WIN.FDB','1','1')
-teste.abrir_sga()
+
