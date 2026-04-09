@@ -4,12 +4,12 @@ import time
 import os
 import subprocess
 import psutil
-from pywinauto import Application
+from pywinauto import Application,Desktop
 from pywinauto.findwindows import ElementNotFoundError
 from logger import log
 
 class GerenciadorSGA:
-    caminho_exe='C:\\Users\\mateussouza\\Desktop\\QA\\SGA\\sac4win\\SGA.exe'
+    
 
     def __init__(self, caminho_exe: str,caminho_bd: str, usuario: str, senha:str):
         self.caminho_exe=caminho_exe
@@ -35,14 +35,20 @@ class GerenciadorSGA:
 
             log.info("Aguardando SGA abrir (10 segundos)...")
             time.sleep(10)
-            
-            self.app=Application(backend="win32").connect(class_name='TDlgSenha',timeout=15)
-            self.janela=self.app.window(class_name='TDlgSenha')
-            
 
-            if self.janela.exists():
+            janelas= Desktop(backend='win32').windows()
+            classes=[w.class_name() for w in janelas]
+
+            if 'TDlgSenha' in classes:
+                self.app=Application(backend="win32").connect(class_name='TDlgSenha',timeout=15)
+                self.janela=self.app.window(class_name='TDlgSenha')
                 log.info('Janela de login identificada com sucesso')
                 return True
+                
+            
+            elif 'TSplash' in classes:
+                log.error('Verifique a configuração do banco de dados ou a versão do firebird instalada')
+                return False
             else:
                 log.info('Janela de login não identificada identificada')
                 return False

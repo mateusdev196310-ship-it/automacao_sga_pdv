@@ -18,7 +18,7 @@ class Login:
             log.info('Iniciando fluxo de login')
 
             campo_usuario= self.janela.child_window(class_name='TEdit', found_index=1)
-            campo_senha= self.janela.child_window(class_name='TEdit', found_index=2)
+            campo_senha= self.janela.child_window(class_name='TEdit', found_index=0)
             botao_entrar= self.janela.child_window(title='Entrar', class_name='TcxButton')
 
             campo_usuario.set_text(self.usuario)
@@ -30,13 +30,14 @@ class Login:
             botao_entrar.click()
             log.info('Botão Entrar clicado')
 
-            time.sleep(7)
+            time.sleep(10)
 
             # Verificar se a janela principal (Tform_Principal) abriu
 
             janelas=[i.class_name() for i in Desktop(backend='win32').windows()]
+            
 
-            if 'Tform_Principal' in janelas:
+            if ('TForm_principal' in janelas):
                 log.info('Login realizado com sucesso')
                 return True
             else:

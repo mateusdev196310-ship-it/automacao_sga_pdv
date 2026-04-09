@@ -19,13 +19,13 @@ class AutomacaoSGA(AutomacaoBase):
         self.app= sga.app
         self.janela= sga.janela
 
-        #Login SGA
+        
 
-        # login=Login('1','1','1')
+        login=Login(self.janela, self.usuario,self.senha)
 
-        # if not login.fazer_login():
-        #     log.error("Falha no login. Encerrando")
-        #     return True
+        if not login.fazer_login():
+            log.error("Falha no login. Encerrando")
+            return False
         
         #Tratar/fechar popups e janelas
         
@@ -36,7 +36,7 @@ class AutomacaoSGA(AutomacaoBase):
 
         #Navegação até rotinas do SGA
         ...
-
+        
 
         #Entrada de produtos
 
