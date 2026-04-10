@@ -1,9 +1,11 @@
 # Digitação do login e senha
 
-from pywinauto import Desktop
+from pywinauto import Desktop,Application
 from logger import log
 import time
-
+import win32gui
+import win32process
+import win32api
 
 class Login:
     def __init__(self,janela,usuario: str,senha:str):
@@ -15,17 +17,43 @@ class Login:
         
         try:
 
+            if not self.janela.exists() or not self.janela.is_visible():
+                log.info('Janela não está visível')
+                return False
+            
             log.info('Iniciando fluxo de login')
 
             campo_usuario= self.janela.child_window(class_name='TEdit', found_index=1)
             campo_senha= self.janela.child_window(class_name='TEdit', found_index=0)
             botao_entrar= self.janela.child_window(title='Entrar', class_name='TcxButton')
 
-            campo_usuario.set_text(self.usuario)
-            log.info('Usuário preenchido')
+            foco_inicial= self.janela.has_focus()
 
-            campo_senha.set_text(self.senha)
-            log.info('Senha preenchida')
+           
+            if not campo_usuario.has_focus():
+                log.info('Campo usuário não está em foco')
+                return False
+            
+            
+            campo_usuario.type_keys("{TAB}")
+            if campo_usuario.has_focus():
+                log.info('Foco se manteve no campo login. Continuando fluxo')
+                campo_usuario.set_text(self.usuario)
+                log.info('Usuário preenchido')    
+            else:
+                log.info("Foco saiu do campo usuário sem preenchimento. Encerrando")
+                return False
+            
+            campo_senha.type_keys("{ENTER}")
+            if campo_senha.has_focus():
+                log.info('Foco se manteve no campo senha. Continuando fluxo')
+                campo_senha.set_text(self.senha)
+                log.info('Senha preenchida')
+            else:
+                log.info("Foco saiu do campo senha sem preenchimento. Encerrando")
+                return False
+
+            
 
             botao_entrar.click()
             log.info('Botão Entrar clicado')

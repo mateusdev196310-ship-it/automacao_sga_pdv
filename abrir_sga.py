@@ -40,7 +40,9 @@ class GerenciadorSGA:
             classes=[w.class_name() for w in janelas]
 
             if 'TDlgSenha' in classes:
+                # ponte para conexão com o processo do SGA (aplicação Windows já aberta)
                 self.app=Application(backend="win32").connect(class_name='TDlgSenha',timeout=15)
+                # referência para a janela específica de senha dentro do SGA
                 self.janela=self.app.window(class_name='TDlgSenha')
                 log.info('Janela de login identificada com sucesso')
                 return True
@@ -70,7 +72,15 @@ class GerenciadorSGA:
         for processo in psutil.process_iter(['name']):
             if processo.name() == 'SGA.exe':
                   log.info("Instância anterior do SGA encontrada, encerrando...")
-                  processo.kill()
+                  processo.terminate()
+
+                  try:
+                      processo.wait(timeout=5)
+
+                  except psutil.TimeoutExpired:
+                      log.info('Processo não encerrado. Forçando kill')
+                      processo.kill()
+                       
                   time.sleep(2)
                   log.info("Instância encerrada.")
             

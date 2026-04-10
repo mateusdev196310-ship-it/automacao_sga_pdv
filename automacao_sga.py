@@ -8,10 +8,14 @@ from logger import log
 
 class AutomacaoSGA(AutomacaoBase):
 
+
     def executar(self)->bool:
+        log.criar_arquivo_log('TXT')
         
         #Abrir SGA
         sga= GerenciadorSGA(self.caminho_exe,self.caminho_bd,self.usuario,self.senha)
+        
+
         if not sga.abrir_sga():
             log.error("Falha na abertura do SGA. Encerrando")
             return False
@@ -19,8 +23,7 @@ class AutomacaoSGA(AutomacaoBase):
         self.app= sga.app
         self.janela= sga.janela
 
-        
-
+        #login
         login=Login(self.janela, self.usuario,self.senha)
 
         if not login.fazer_login():
