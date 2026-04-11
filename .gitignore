@@ -7,3 +7,7 @@ __pycache__/
 venv/
 .env
 GUIA_DO_PROJETO.md
+config.ini
+*.txt
+teste.py
+identificar_componentes_delphi.py
