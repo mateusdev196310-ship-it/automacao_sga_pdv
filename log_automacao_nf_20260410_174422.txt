@@ -1,9 +1,0 @@
-10/04/2026 17:44:22 | INFO     | _processar_fila      | Log iniciado: log_automacao_nf_20260410_174422.txt (Formato: TXT)
-10/04/2026 17:44:22 | INFO     | _processar_fila      | Instância anterior do SGA encontrada, encerrando...
-10/04/2026 17:44:24 | INFO     | _processar_fila      | Instância encerrada.
-10/04/2026 17:44:24 | INFO     | _processar_fila      | Abrindo SGA: C:\\Users\\mateussouza\\Desktop\\QA\\SGA\\sac4win\\SGA.exe
-10/04/2026 17:44:24 | INFO     | _processar_fila      | Aguardando SGA abrir (10 segundos)...
-10/04/2026 17:44:34 | INFO     | _processar_fila      | Janela de login identificada com sucesso
-10/04/2026 17:44:34 | INFO     | _processar_fila      | Iniciando fluxo de login
-10/04/2026 17:44:34 | INFO     | _processar_fila      | Campo usuário não está em foco
-10/04/2026 17:44:34 | ERROR    | _processar_fila      | Falha no login. Encerrando

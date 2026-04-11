@@ -18,7 +18,7 @@ class Login:
         try:
 
             if not self.janela.exists() or not self.janela.is_visible():
-                log.info('Janela não está visível')
+                log.error('Janela não está visível')
                 return False
             
             log.info('Iniciando fluxo de login')
@@ -27,34 +27,48 @@ class Login:
             campo_senha= self.janela.child_window(class_name='TEdit', found_index=0)
             botao_entrar= self.janela.child_window(title='Entrar', class_name='TcxButton')
 
-            foco_inicial= self.janela.has_focus()
-
-           
-            if not campo_usuario.has_focus():
-                log.info('Campo usuário não está em foco')
+            foco_antes= self._obter_foco()
+            if not foco_antes:
+                log.error('Nenhum controle está em foco')
                 return False
-            
             
             campo_usuario.type_keys("{TAB}")
-            if campo_usuario.has_focus():
-                log.info('Foco se manteve no campo login. Continuando fluxo')
-                campo_usuario.set_text(self.usuario)
-                log.info('Usuário preenchido')    
-            else:
-                log.info("Foco saiu do campo usuário sem preenchimento. Encerrando")
+            time.sleep(0.5)
+            foco_depois= self._obter_foco()
+
+            if not foco_antes == foco_depois:
+                log.error("Foco mudou do campo usuário sem inserção de caractere")
                 return False
+            log.info("TAB pressionado sem usuário — foco mantido no campo usuário | Comportamento esperado")
             
+            campo_usuario.set_text(self.usuario)
+            campo_usuario.type_keys("{TAB}")
+            time.sleep(0.5)
+
+            foco_depois= self._obter_foco()
+            if foco_antes == foco_depois:
+                log.error('Foco não mudou do campo usuário após digitar usuário e apertar tab')
+                return False
+            log.info("TAB pressionado com usuário preenchido — foco moveu para o campo senha | Comportamento esperado")
+            
+            foco_antes=self._obter_foco()
             campo_senha.type_keys("{ENTER}")
-            if campo_senha.has_focus():
-                log.info('Foco se manteve no campo senha. Continuando fluxo')
-                campo_senha.set_text(self.senha)
-                log.info('Senha preenchida')
-            else:
-                log.info("Foco saiu do campo senha sem preenchimento. Encerrando")
+            time.sleep(0.5)
+            foco_depois=self._obter_foco()
+            if not foco_antes == foco_depois:
+                log.error('Foco mudou do campo senha sem inserção de caractere')
                 return False
-
+            log.info("ENTER pressionado sem senha — foco mantido no campo senha | Comportamento esperado")
             
+            campo_senha.set_text(self.senha)
+            campo_senha.type_keys("{TAB}")
+            foco_depois= self._obter_foco()
 
+            if foco_antes==foco_depois:
+                log.error('Foco não mudou do campo senha após digitar senha e apertar tab')
+                return False
+            log.info("TAB pressionado com senha preenchida — foco moveu para botão Entrar | Comportamento esperado")
+            
             botao_entrar.click()
             log.info('Botão Entrar clicado')
 
@@ -69,9 +83,17 @@ class Login:
                 log.info('Login realizado com sucesso')
                 return True
             else:
-                log.info('Login falhou - Janela principal não identificada')
+                log.error('Login falhou - Janela principal não identificada')
                 return False
         
         except Exception as e:
             log.error(f"Erro no login: {type(e).__name__} - {e}")
             return False
+        
+    def _obter_foco(self):
+        hwnd= win32gui.GetForegroundWindow() # Pega o handle da janela queestá  em primeiro plano
+        thread_id = win32process.GetWindowThreadProcessId(hwnd)[0]
+        win32process.AttachThreadInput(win32api.GetCurrentThreadId(),thread_id,True)
+        focused= win32gui.GetFocus()
+        win32process.AttachThreadInput(win32api.GetCurrentThreadId(),thread_id,False)
+        return focused
