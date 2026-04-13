@@ -31,7 +31,7 @@ class AutomacaoSGA(AutomacaoBase):
             return False
         
         #Tratar/fechar popups e janelas
-        
+        self.janela= self.app.window(class_name='TForm_principal')
         popups = Popups(self.app,self.janela)
 
         if not popups.fechar_popups():

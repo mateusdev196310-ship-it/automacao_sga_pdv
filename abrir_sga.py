@@ -31,17 +31,20 @@ class GerenciadorSGA:
             
             pasta_exe = os.path.dirname(self.caminho_exe)
             log.info(f'Abrindo SGA: {self.caminho_exe}')
-            subprocess.Popen([self.caminho_exe], cwd=pasta_exe)
+            processo= subprocess.Popen([self.caminho_exe], cwd=pasta_exe)
 
-            log.info("Aguardando SGA abrir (10 segundos)...")
-            time.sleep(10)
+            log.info("Aguardando SGA abrir")
 
-            janelas= Desktop(backend='win32').windows()
+            # ponte para conexão com o processo do SGA (aplicação Windows já aberta)
+            self.app=Application(backend='win32').connect(process=processo.pid,timeout=20)
+            log.info('Aguardando janelas do processo aparecerem')
+
+            self.app.wait_cpu_usage_lower(threshold=5,timeout=5)
+                
+            janelas= self.app.windows()
             classes=[w.class_name() for w in janelas]
 
             if 'TDlgSenha' in classes:
-                # ponte para conexão com o processo do SGA (aplicação Windows já aberta)
-                self.app=Application(backend="win32").connect(class_name='TDlgSenha',timeout=15)
                 # referência para a janela específica de senha dentro do SGA
                 self.janela=self.app.window(class_name='TDlgSenha')
                 log.info('Janela de login identificada com sucesso')

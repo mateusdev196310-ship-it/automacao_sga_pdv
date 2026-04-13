@@ -2,8 +2,6 @@
 
 from automacao_sga import AutomacaoSGA
 import configparser
-import os
-import sys
 from logger import log
 
 

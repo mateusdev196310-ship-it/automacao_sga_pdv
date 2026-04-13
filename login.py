@@ -25,7 +25,7 @@ class Login:
             campo_senha = self.janela.child_window(class_name='TEdit', found_index=0)
             botao_entrar = self.janela.child_window(title='Entrar', class_name='TcxButton')
 
-            campo_usuario.click()
+            # campo_usuario.click()
 
             #Validação de foco
 
@@ -66,8 +66,14 @@ class Login:
             botao_entrar.click()
             log.info('Botão Entrar clicado')
 
-            time.sleep(10)
-
+            try:
+                Desktop(backend='win32').window(class_name='TForm_principal')\
+                    .wait('visible',timeout=20)
+                log.info('Janela principal do SGA visível')
+            except:
+                log.info("Janela principal do SGA não identificada")
+                return False    
+            
             janelas = [i.class_name() for i in Desktop(backend='win32').windows()]
 
             if 'TForm_principal' in janelas:

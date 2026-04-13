@@ -11,7 +11,7 @@ import json
 from collections import defaultdict
 from typing import List
 
-from utils import formatar_moeda_br, formatar_numero_br
+
 
 
 class SistemaLogging:
