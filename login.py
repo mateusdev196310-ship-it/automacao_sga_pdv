@@ -8,7 +8,8 @@ import win32process
 import win32api
 
 class Login:
-    def __init__(self, janela, usuario: str, senha: str):
+    def __init__(self, app ,janela, usuario: str, senha: str):
+        self.app=app
         self.janela = janela
         self.usuario = usuario
         self.senha = senha
@@ -66,22 +67,17 @@ class Login:
             botao_entrar.click()
             log.info('Botão Entrar clicado')
 
+
             try:
-                Desktop(backend='win32').window(class_name='TForm_principal')\
-                    .wait('visible',timeout=20)
+                janela_principal= self.app.window(class_name='TForm_principal')
+                janela_principal.wait('exists enabled visible ready',timeout=20)
+                log.info("Login realizado com sucesso")
                 log.info('Janela principal do SGA visível')
-            except:
-                log.info("Janela principal do SGA não identificada")
+                return True
+            except Exception as e:
+                log.error(f"Janela principal do SGA não identificada {e}")
                 return False    
             
-            janelas = [i.class_name() for i in Desktop(backend='win32').windows()]
-
-            if 'TForm_principal' in janelas:
-                log.info('Login realizado com sucesso')
-                return True
-            else:
-                log.error('Login falhou - Janela principal não identificada')
-                return False
 
         except Exception as e:
             log.error(f"Erro no login: {type(e).__name__} - {e}")

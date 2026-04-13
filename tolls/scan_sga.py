@@ -17,6 +17,7 @@ print("Buscando janelas do processo...")
 janelas = app.windows()
 
 for janela in janelas:
+    
     print(f"\nJanela encontrada: {janela.window_text()} | Classe: {janela.class_name()}")
     scan_componentes(janela)
 

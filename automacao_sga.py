@@ -24,19 +24,20 @@ class AutomacaoSGA(AutomacaoBase):
         self.janela= sga.janela
 
         #login
-        login=Login(self.janela, self.usuario,self.senha)
+        login=Login(self.app,self.janela, self.usuario,self.senha)
 
         if not login.fazer_login():
             log.error("Falha no login. Encerrando")
             return False
-        
+    
         #Tratar/fechar popups e janelas
         self.janela= self.app.window(class_name='TForm_principal')
         popups = Popups(self.app,self.janela)
 
         if not popups.fechar_popups():
-            log.info('Falha na verificação de popups. Encerrando')
+            log.error('Falha na verificação de popups. Encerrando')
 
+        log.info('Popups e/ou janelas fechados')
         #Navegação até rotinas do SGA
         ...
         
