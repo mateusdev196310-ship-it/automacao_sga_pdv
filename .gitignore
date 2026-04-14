@@ -9,6 +9,7 @@ venv/
 GUIA_DO_PROJETO.md
 config.ini
 *.txt
+!proximos_passos.txt
 teste.py
 identificar_componentes_delphi.py
 test2.py

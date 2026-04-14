@@ -1,8 +1,8 @@
 """Ponto de entrada: seleção de fluxos, execução e relatório final."""
 
-from automacao_sga import AutomacaoSGA
+from sga.automacao_sga import AutomacaoSGA
 import configparser
-from logger import log
+from infra.logger import log
 
 
 

@@ -1,10 +1,10 @@
 """Rotinas de automação do SGA ."""
 
-from base import AutomacaoBase
-from abrir_sga import GerenciadorSGA
-from login import Login
-from popups import Popups
-from logger import log
+from infra.base import AutomacaoBase
+from .abrir_sga import GerenciadorSGA
+from .login import Login
+from .popups import Popups
+from infra.logger import log
 
 class AutomacaoSGA(AutomacaoBase):
 
@@ -45,4 +45,3 @@ class AutomacaoSGA(AutomacaoBase):
         #Entrada de produtos
 
         return True
-

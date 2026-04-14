@@ -6,7 +6,7 @@ import subprocess
 import psutil
 from pywinauto import Application,Desktop
 from pywinauto.findwindows import ElementNotFoundError
-from logger import log
+from infra.logger import log
 
 class GerenciadorSGA:
     
@@ -90,4 +90,3 @@ class GerenciadorSGA:
 
     
 #Retornar no fluxo de inserção dos caminhos, criar arquivo config.py  
-

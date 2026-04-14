@@ -1,0 +1,32 @@
+PRÓXIMOS PASSOS (roadmap curto)
+
+1) Fixar o “setup” para rodar o main.py sempre
+   - Criar um venv e instalar dependências do projeto
+   - Garantir que as libs usadas pela automação (ex.: psutil, pywinauto, pywin32) estejam instaladas na máquina
+
+2) Configuração (config.ini + config.py)
+   - Definir um schema do config (seções e chaves obrigatórias)
+   - Implementar validação: antes de iniciar o fluxo, verificar se todas as chaves existem e estão válidas
+   - Implementar config.py para ler/gravar o ini (e manter o ini fora do git)
+   - Manter o main.py como orquestrador: carrega config -> instancia AutomacaoSGA -> executa
+
+3) Conexão com a base de dados (pasta db/)
+   - Criar um módulo de acesso a dados isolado (repositório) na pasta db/
+   - Evitar misturar “automação de UI” com “consulta no banco” no mesmo arquivo
+   - Primeiro objetivo: conseguir buscar os dados necessários sem abrir o SGA (testável e repetível)
+
+4) Rotinas do SGA (pasta sga/)
+   - Criar um arquivo por rotina (ex.: sga/entrada_produtos.py)
+   - Padrão recomendado:
+     - Uma classe/serviço por rotina
+     - Métodos pequenos e previsíveis (entrar no menu, preencher campos, confirmar, validar resultado)
+   - Evitar scripts soltos; manter tudo chamado a partir do fluxo principal
+
+5) UX (pasta ux/)
+   - Colocar utilitários de feedback para o usuário (som, mensagens, etc.)
+   - Quando criar o front, ele deve usar config.py para persistir o ini (uma única fonte de validação)
+
+6) Organização e qualidade
+   - Padronizar execução: sempre rodar pela raiz (python main.py)
+   - Renomear “tolls” para “tools” quando quiser limpar (opcional)
+   - Adicionar um comando simples de “verificação” (ex.: import/compile) para garantir que a estrutura não quebrou

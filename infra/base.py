@@ -1,4 +1,4 @@
-from logger import log
+from .logger import log
 
 class AutomacaoBase:
     def __init__(self, caminho_exe: str, caminho_bd: str, usuario: str, senha: str):

@@ -1,7 +1,7 @@
 # Digitação do login e senha
 
 from pywinauto import Desktop
-from logger import log
+from infra.logger import log
 import time
 import win32gui
 import win32process

@@ -1,6 +1,6 @@
 # Identificar/fechar janelas e popups que podem atrapalhar no fluxo da automação
 
-from logger import log
+from infra.logger import log
 import time
 
 class Popups:
